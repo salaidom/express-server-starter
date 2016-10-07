@@ -3,6 +3,9 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/test');
 
 const router = require('./app/router.js');
 
