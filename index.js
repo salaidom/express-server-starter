@@ -5,11 +5,11 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/test');
-
 const router = require('./app/router.js');
 
 const app = express();
+
+mongoose.connect('mongodb://localhost/express-server-starter');
 
 app.use(morgan('combined'));
 app.use(helmet());
