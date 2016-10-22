@@ -1,3 +1,5 @@
+'use strict';
+
 const indexRouter = require('./index.js');
 const authenticationRouter = require('./authentication.js');
 const userRouter = require('./user.js');

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * APPLICATION BOOTSTRAP FILE
  */
@@ -8,21 +10,19 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// Import important custom files like config, routers and middlewares
-const config = require('./config/config-local.js');
+// Import applciation configuration, routes and middleware
+const config = require('./config/config.js');
 const router = require('./routers/router.js');
 const errorMiddleware = require('./middlewares/error.js');
 
 // Create expressjs app
 const app = express();
 
-// Connect to database
+// Connect and configure database
 mongoose.connect(config.database.prefix + '://' + config.database.host + ':' + config.database.port + '/' + config.database.name);
-
-// Configure mongoose to use native promises
 mongoose.Promise = Promise; 
 
-// Setup application level middleware
+// Setup application middleware
 app.use(morgan('combined'));
 app.use(helmet());
 app.use(bodyParser.json({ type: '*/*' }));

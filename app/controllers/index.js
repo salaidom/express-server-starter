@@ -1,5 +1,5 @@
-module.exports.index = function(req, res) {
-    res.status(200).json({ 
-        message: 'Hello World!' 
-    });
+'use strict';
+
+module.exports.index = function(request, response, next) {
+    response.status(200).end('Online');
 }

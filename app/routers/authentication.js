@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 
 const authenticationController = require('../controllers/authentication.js');

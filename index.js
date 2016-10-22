@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * APPLICATION ENTRY POINT
  */

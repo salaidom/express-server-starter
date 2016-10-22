@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * APPLICATION CONFIGURATION ENTRY POINT
  */

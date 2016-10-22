@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * APPLICATION CONFIG FILE
  * 
