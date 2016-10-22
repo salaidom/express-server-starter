@@ -1,0 +1,8 @@
+{
+  "globalDependencies": {
+    "express": "registry:dt/express#4.0.0+20160708185218",
+    "lodash": "registry:dt/lodash#4.14.0+20161004174455",
+    "mongoose": "registry:dt/mongoose#4.5.9+20161010180758",
+    "node": "registry:dt/node#6.0.0+20161019125345"
+  }
+}
