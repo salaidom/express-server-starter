@@ -1,35 +1,30 @@
 const jwt = require('jwt-simple');
+
 const User = require('../models/user.js');
 const config = require('../config/config.js');
 
-function tokenForUser(user) {
+function generateToken(user) {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user._id, iat: timestamp }, config.secret);
 }
 
-module.exports.signIn = function (req, res) {
-    res.status(200).json({
-        token: tokenForUser(req.user)
-    });
-}
-
-module.exports.signUp = function (req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+module.exports.signUp = function (request, response) {
+    const email = request.body.email;
+    const password = request.body.password;
 
     if (!email || !password) {
-        return res.status(422).json({
+        return response.status(422).json({
             error: 'You must provide both email and password!'
         });
     }
 
-    User.findOne({ email: email }, function (err, existingUser) {
-        if (err) {
-            return next(err);
+    User.findOne({ email: email }, function (error, existingUser) {
+        if (error) {
+            return next(error);
         }
 
         if (existingUser) {
-            return res.status(422).json({
+            return response.status(422).json({
                 error: 'Email is already in use by another user!'
             });
         }
@@ -39,14 +34,22 @@ module.exports.signUp = function (req, res) {
             password: password
         });
 
-        user.save(function (err) {
-            if (err) {
-                return next(err);
+        user.save(function (error) {
+            if (error) {
+                return next(error);
             }
 
-            return res.status(200).json({
-                token: tokenForUser(user)
+            return response.status(200).json({
+                user: user,
+                token: generateToken(user)
             });
         });
+    });
+}
+
+module.exports.signIn = function (request, response) {
+    response.status(200).json({
+        user: request.user,
+        token: generateToken(request.user)
     });
 }
