@@ -14,19 +14,19 @@ const localOptions = {
 };
 
 const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
-    User.findOne({ email: email })
+    User.findOne({ email: email }).select('+password')
     .then(function(user){
         if (!user) { return done(null, false); }
 
         user.comparePassword(password, function(error, isMatch) {
-            if (error) { return done(err); }
+            if (error) { return done(error); }
             if (!isMatch) { return done(null, false); }
 
             return done(null, user);
         });
     })
     .catch(function(error) {
-        return done(err);
+        return done(error);
     });
 });
 
@@ -46,7 +46,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
         }
     })
     .catch(function(error) {
-        return done(err);
+        return done(error);
     });
 });
 

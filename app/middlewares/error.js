@@ -2,6 +2,6 @@
 
 module.exports = function(error, request, response, next) {
     if(error) {
-        response.status(error.statusCode || 500).end(error);  
+        return response.status(error.statusCode || 500).end(error.toString());  
     }
 }
