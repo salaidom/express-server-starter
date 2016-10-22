@@ -2,7 +2,7 @@
  * APPLICATION CONFIG FILE
  * 
  * This file might also serve as a template for other config files for different environemnts.
- * If you create new config files out of this one, don't forget to change the config route in '/app/index.js' file.
+ * If you create new config files out of this one, don't forget to change the config route in '/app/config/config.js' file.
  */
 module.exports = {
     env: {
