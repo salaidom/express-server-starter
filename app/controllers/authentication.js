@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const User = require('../models/user.js');
 const jwtService = require('../services/jwt.js');
 
@@ -21,9 +22,8 @@ module.exports.signUp = function(request, response, next) {
 
         user.save()
         .then(function() {
-            user.password = undefined;
             return response.status(200).json({ 
-                user: user, 
+                user: _.omit(user.toObject(), 'password'), 
                 token: jwtService.generateToken(user) 
             });
         })
@@ -37,9 +37,8 @@ module.exports.signUp = function(request, response, next) {
 }
 
 module.exports.signIn = function(request, response, next) {
-    request.user.password = undefined;
     response.status(200).json({ 
-        user: request.user, 
+        user: _.omit(request.user.toObject(), 'password'), 
         token: jwtService.generateToken(user) 
     });
 }
