@@ -8,9 +8,10 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// Import important files like config and router
+// Import important custom files like config, routers and middlewares
 const config = require('./config/config-local.js');
 const router = require('./routers/router.js');
+const errorMiddleware = require('./middlewares/error.js');
 
 // Create expressjs app
 const app = express();
@@ -30,13 +31,7 @@ app.use(bodyParser.json({ type: '*/*' }));
 router(app);
 
 // Error handling middleware
-app.use(function(err, req, res, next) {
-    if(err) {
-        res.json(err);
-    } else {
-        res.json({ error: 'Something went wrong!' });
-    }
-});
+app.use(errorMiddleware);
 
 // Setup and start the server
 const port = process.env.PORT || config.environment.port || 3000;
