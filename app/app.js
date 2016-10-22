@@ -16,7 +16,10 @@ const router = require('./routers/router.js');
 const app = express();
 
 // Connect to database
-mongoose.connect(config.db.prefix + '://' + config.db.host + ':' + config.db.port + '/' + config.db.name);
+mongoose.connect(config.database.prefix + '://' + config.database.host + ':' + config.database.port + '/' + config.database.name);
+
+// Configure mongoose to use native promises
+mongoose.Promise = Promise; 
 
 // Setup application level middleware
 app.use(morgan('combined'));
@@ -26,8 +29,17 @@ app.use(bodyParser.json({ type: '*/*' }));
 // Register application routes
 router(app);
 
+// Error handling middleware
+app.use(function(err, req, res, next) {
+    if(err) {
+        res.json(err);
+    } else {
+        res.json({ error: 'Something went wrong!' });
+    }
+});
+
 // Setup and start the server
-const port = process.env.PORT || config.env.port || 3000;
+const port = process.env.PORT || config.environment.port || 3000;
 const server = http.createServer(app);
 
 server.listen(port);

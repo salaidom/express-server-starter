@@ -3,12 +3,12 @@ const jwt = require('jwt-simple');
 const User = require('../models/user.js');
 const config = require('../config/config.js');
 
-function generateToken(user) {
+function generateToken (user) {
     const timestamp = new Date().getTime();
-    return jwt.encode({ sub: user._id, iat: timestamp }, config.secret);
+    return jwt.encode({ sub: user._id, iat: timestamp }, config.hash.password);
 }
 
-module.exports.signUp = function (request, response) {
+module.exports.signUp = function (request, response, next) {
     const email = request.body.email;
     const password = request.body.password;
 
@@ -18,11 +18,8 @@ module.exports.signUp = function (request, response) {
         });
     }
 
-    User.findOne({ email: email }, function (error, existingUser) {
-        if (error) {
-            return next(error);
-        }
-
+    User.findOne({ email: email })
+    .then(function (existingUser) {
         if (existingUser) {
             return response.status(422).json({
                 error: 'Email is already in use by another user!'
@@ -34,16 +31,19 @@ module.exports.signUp = function (request, response) {
             password: password
         });
 
-        user.save(function (error) {
-            if (error) {
-                return next(error);
-            }
-
+        user.save()
+        .then(function () {
             return response.status(200).json({
                 user: user,
                 token: generateToken(user)
             });
+        })
+        .catch(function (error) {
+            return next(error);
         });
+    })
+    .catch(function (error) {
+        return next(error);
     });
 }
 

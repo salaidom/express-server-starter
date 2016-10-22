@@ -5,11 +5,11 @@
  * If you create new config files out of this one, don't forget to change the config route in '/app/config/config.js' file.
  */
 module.exports = {
-    env: {
+    environment: {
         host: 'localhost',
         port: '3000'
     },
-    db: {
+    database: {
         prefix: 'mongodb',
         host: 'localhost',
         port: '27017',
