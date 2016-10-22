@@ -19,7 +19,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
 
         user.comparePassword(password, function(error, isMatch) {
             if (error) {
-                return done(err, false);
+                return done(err);
             }
             if (!isMatch) {
                 return done(null, false);
@@ -29,7 +29,7 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
         });
     })
     .catch(function(error) {
-        return done(err, false);
+        return done(err);
     });
 });
 
@@ -48,7 +48,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
         }
     })
     .catch(function(error) {
-        return done(err, false);
+        return done(err);
     });
 });
 
