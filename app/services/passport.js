@@ -10,18 +10,16 @@ const localOptions = {
     usernameField: 'email'
 };
 
-const localLogin = new LocalStrategy(localOptions, function (email, password, done) {
-    User.findOne({ email: email }, function (err, user) {
-        if (err) {
-            return done(err);
-        }
+const localLogin = new LocalStrategy(localOptions, function(email, password, done) {
+    User.findOne({ email: email })
+    .then(function(user){
         if (!user) {
             return done(null, false);
         }
 
-        user.comparePassword(password, function (err, isMatch) {
-            if (err) {
-                return done(err);
+        user.comparePassword(password, function(error, isMatch) {
+            if (error) {
+                return done(err, false);
             }
             if (!isMatch) {
                 return done(null, false);
@@ -29,6 +27,9 @@ const localLogin = new LocalStrategy(localOptions, function (email, password, do
 
             return done(null, user);
         });
+    })
+    .catch(function(error) {
+        return done(err, false);
     });
 });
 
@@ -37,20 +38,20 @@ const jwtOptions = {
     secretOrKey: config.hash.password
 };
 
-const jwtLogin = new JwtStrategy(jwtOptions, function (payload, done) {
-    User.findById(payload.sub, function (err, user) {
-        if (err) {
-            return done(err, false);
-        }
-
+const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
+    User.findById(payload.sub)
+    .then(function(user){
         if (user) {
             done(null, user);
         } else {
             done(null, false);
         }
+    })
+    .catch(function(error) {
+        return done(err, false);
     });
 });
 
 // Tell passport to use this strategy
-passport.use(jwtLogin);
 passport.use(localLogin);
+passport.use(jwtLogin);

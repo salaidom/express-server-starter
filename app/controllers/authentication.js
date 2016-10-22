@@ -8,7 +8,7 @@ function generateToken (user) {
     return jwt.encode({ sub: user._id, iat: timestamp }, config.hash.password);
 }
 
-module.exports.signUp = function (request, response, next) {
+module.exports.signUp = function(request, response, next) {
     const email = request.body.email;
     const password = request.body.password;
 
@@ -19,7 +19,7 @@ module.exports.signUp = function (request, response, next) {
     }
 
     User.findOne({ email: email })
-    .then(function (existingUser) {
+    .then(function(existingUser) {
         if (existingUser) {
             return response.status(422).json({
                 error: 'Email is already in use by another user!'
@@ -32,22 +32,23 @@ module.exports.signUp = function (request, response, next) {
         });
 
         user.save()
-        .then(function () {
+        .then(function() {
+            delete user.password;
             return response.status(200).json({
                 user: user,
                 token: generateToken(user)
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
             return next(error);
         });
     })
-    .catch(function (error) {
+    .catch(function(error) {
         return next(error);
     });
 }
 
-module.exports.signIn = function (request, response) {
+module.exports.signIn = function(request, response) {
     response.status(200).json({
         user: request.user,
         token: generateToken(request.user)
