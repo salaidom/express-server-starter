@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const config = require('./config/config-local.js');
-const router = require('./router.js');
+const router = require('./routers/router.js');
 
 const app = express();
 

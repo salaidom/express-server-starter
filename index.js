@@ -1,4 +1,4 @@
 /**
  * APPLICATION ENTRY POINT
  */
-require('./app/index.js');
+require('./app/app.js');

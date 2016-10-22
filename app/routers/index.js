@@ -1,8 +1,8 @@
 var express = require('express');
+var indexController = require('../controllers/index.js');
+
 var router = express.Router();
 
-router.get('/', function(req, res) {
-  res.status(200).json({ message: 'Hello World!' });
-});
+router.get('/', indexController.index);
 
 module.exports = router;
