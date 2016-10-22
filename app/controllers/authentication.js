@@ -48,7 +48,7 @@ module.exports.signUp = function(request, response, next) {
     });
 }
 
-module.exports.signIn = function(request, response) {
+module.exports.signIn = function(request, response, next) {
     response.status(200).json({
         user: request.user,
         token: generateToken(request.user)
