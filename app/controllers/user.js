@@ -4,6 +4,7 @@ const _ = require('lodash');
 
 const User = require('../models/user.js');
 
+// Get all users
 module.exports.getUsers = function(request, response, next) {
     User.find({})
     .then(function(users){
@@ -12,6 +13,7 @@ module.exports.getUsers = function(request, response, next) {
     .catch(function(error){ return next(error); });
 };
 
+// Create user
 module.exports.createUser = function(request, response, next) {
     const email = request.body.email;
     const password = request.body.password;
@@ -31,6 +33,7 @@ module.exports.createUser = function(request, response, next) {
     .catch(function(error) { return next(error); });
 };
 
+// Get user
 module.exports.getUser = function(request, response, next) {
     const id = request.params.id;
 
@@ -45,6 +48,7 @@ module.exports.getUser = function(request, response, next) {
     .catch(function(error) { return next(error); });
 };
 
+// Update user
 module.exports.updateUser = function(request, response, next) {
     const id = request.params.id;
     const userData = _.omit(_.extend({}, request.body), ['_id', 'password']);
@@ -60,6 +64,8 @@ module.exports.updateUser = function(request, response, next) {
     .catch(function(error) { return next(error); });
 };
 
+
+// Delete user
 module.exports.deleteUser = function(request, response, next) {
     const id = request.params.id;
 
