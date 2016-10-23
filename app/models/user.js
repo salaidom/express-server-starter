@@ -18,6 +18,9 @@ const userSchema = new Schema({
 
 userSchema.pre('save', function(next) {
     const user = this;
+    const timestamp = new Date().getTime(); 
+    user.createdAt = timestamp;
+    user.updatedAt = timestamp;
 
     bcrypt.genSalt(10, function(error, salt) {
         if(error) { return next(error); }
@@ -29,6 +32,11 @@ userSchema.pre('save', function(next) {
             next();
         });
     });
+});
+
+userSchema.pre('update', function(next) {
+    const user = this;
+    user.updatedAt = new Date().getTime();
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
