@@ -23,7 +23,9 @@ mongoose.connect(config.database.prefix + '://' + config.database.host + ':' + c
 mongoose.Promise = Promise; 
 
 // Setup application middleware
-app.use(morgan('combined'));
+if(process.env.NODE_ENV !== 'test') {
+    app.use(morgan('combined'));
+}
 app.use(helmet());
 app.use(bodyParser.json({ type: '*/*' }));
 

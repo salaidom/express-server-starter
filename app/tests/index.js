@@ -1,5 +1,8 @@
 'use strict';
 
+// Force node environment for testing purposes
+process.env.NODE_ENV = 'test';
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
@@ -9,14 +12,29 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('INDEX', function() {
-    describe('GET /', function() {
-        it('Should get JSON with message "Hello World!"', function(done) {
-            chai.request(app).get('/').end(function(err, res) {
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-                res.body.should.have.property('message');
-                res.body.message.should.equal('Hello World!');
+describe('INDEX ROUTER', function() {
+    describe('/', function() {
+        it('Should work when calling GET', function(done) {
+            chai.request(app).get('/').end(function(error, response) {
+                response.should.have.status(200);
+                done();
+            }); 
+        });
+        it('Should fail when calling POST', function(done) {
+            chai.request(app).post('/').end(function(error, response) {
+                response.should.have.status(404);
+                done();
+            }); 
+        });
+        it('Should fail when calling PUT', function(done) {
+            chai.request(app).put('/').end(function(error, response) {
+                response.should.have.status(404);
+                done();
+            }); 
+        });
+        it('Should fail when calling DELETE', function(done) {
+            chai.request(app).put('/').end(function(error, response) {
+                response.should.have.status(404);
                 done();
             }); 
         });
