@@ -8,7 +8,8 @@ const chaiHttp = require("chai-http");
 
 const app = require("../app.js");
 
-const should = chai.should();
+const describe = chai.describe;
+const it = chai.it;
 
 chai.use(chaiHttp);
 

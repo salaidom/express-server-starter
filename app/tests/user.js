@@ -8,14 +8,12 @@ const chaiHttp = require("chai-http");
 
 const app = require("../app.js");
 
-const should = chai.should();
+const describe = chai.describe;
+const it = chai.it;
 
 chai.use(chaiHttp);
 
 let id;
-const authenticatedUser = { email: "test1@test.com", password: "random123" };
-const createdUser = { email: "test2@test.com", password: "random123" };
-const modifiedUser = { email: "test3@test.com", password: "random123" };
 
 describe("USER ROUTER", function() {
   describe("/users/", function() {
